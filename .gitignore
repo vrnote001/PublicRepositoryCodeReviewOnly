@@ -70,3 +70,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Imported assets to be excluded
+*Assets/Plugins/Demigiant
+*Assets/Resources/DOTweenSettings.asset
+*Assets/Plugins/Demigiant.meta
+*Assets/Resources/DOTweenSettings.asset.meta
