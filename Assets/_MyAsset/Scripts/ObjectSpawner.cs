@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class ObjectSpawner<TActor> : MonoBehaviour where TActor : MonoBehaviour,IActor
 {
+    private Dictionary<string, TActor> _actorCash = new Dictionary<string, TActor>();
+    
     public Task Open(string key)
     {
         return OpenAsync(key);
@@ -17,6 +19,7 @@ public class ObjectSpawner<TActor> : MonoBehaviour where TActor : MonoBehaviour,
         var spawn=Instantiate(load);
         var actor=spawn.GetOrAddComponent<TActor>();
         await actor.Open();
+        _actorCash.Add(key,actor);
     }
     public Task Close(string key)
     {
@@ -24,7 +27,12 @@ public class ObjectSpawner<TActor> : MonoBehaviour where TActor : MonoBehaviour,
     }
     private async Task CloseAsync(string key)
     {
-        
+        if(_actorCash.ContainsKey(key))return;
+        var close = _actorCash[key];
+        await close.Close();
+        Destroy(close);
+        _actorCash.Remove(key);
+        Resources.UnloadAsset(close);
     }
 }
 public interface IActor
